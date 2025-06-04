@@ -1,0 +1,56 @@
+{
+  "name": "agves-app-docs",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Documentation for AGVES App with AI-powered automation",
+  "scripts": {
+    "dev": "mintlify dev",
+    "build": "mintlify build",
+    "preview": "mintlify preview",
+    "generate:docs": "node scripts/generate-docs.js",
+    "generate:api": "node scripts/generate-api-docs.js",
+    "generate:all": "npm run sync:types && npm run generate:docs",
+    "sync:types": "cp ../../agves_app/src/generated.d.ts ./types/ 2>/dev/null || echo 'Types not found'",
+    "ai:enhance": "node scripts/enhance-with-ai.js",
+    "ai:update": "npm run generate:all && npm run ai:enhance",
+    "watch": "node scripts/watch-and-update.js",
+    "watch:ai": "ANTHROPIC_API_KEY=$ANTHROPIC_API_KEY node scripts/watch-and-update.js",
+    "deploy": "npm run generate:all && npm run build",
+    "deploy:ai": "npm run ai:update && npm run build",
+    "setup": "npm run generate:all && npm run dev",
+    "setup:hooks": "node scripts/watch-and-update.js --setup-hooks",
+    "setup:env": "node scripts/setup-environment.js",
+    "lint:docs": "mintlify broken-links",
+    "optimize": "node scripts/optimize-docs.js",
+    "test:ai": "node scripts/test-ai-connection.js"
+  },
+  "dependencies": {
+    "mintlify": "^4.0.0",
+    "nodemon": "3.1.10"
+  },
+  "devDependencies": {
+    "@anthropic-ai/sdk": "^0.24.3",
+    "chokidar": "^3.6.0",
+    "dotenv": "^16.5.0"
+  },
+  "keywords": [
+    "documentation",
+    "nextjs",
+    "laravel",
+    "typescript",
+    "entity-driven-architecture",
+    "ai-powered",
+    "automated-docs",
+    "anthropic",
+    "claude"
+  ],
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/agves_app_docs.git"
+  },
+  "author": "Your Name",
+  "license": "MIT"
+}

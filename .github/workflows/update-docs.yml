@@ -1,0 +1,96 @@
+name: Update Documentation with AI
+
+on:
+  push:
+    branches: [ main, master ]
+    paths:
+      - 'src/modules/**'
+      - 'src/lib/**'
+      - 'src/components/**'
+      - 'src/generated.d.ts'
+  schedule:
+    # Mise à jour automatique tous les dimanche à 2h du matin
+    - cron: '0 2 * * 0'
+  workflow_dispatch: # Déclenchement manuel
+
+jobs:
+  update-docs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout main app
+        uses: actions/checkout@v4
+        with:
+          path: agves_app
+
+      - name: Checkout docs repo
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository_owner }}/agves_app_docs
+          token: ${{ secrets.DOCS_REPO_TOKEN }}
+          path: docs
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: |
+          cd docs
+          npm install
+
+      - name: Analyze code changes
+        id: analyze
+        run: |
+          cd agves_app
+          # Détecter les changements dans les modules
+          CHANGED_MODULES=$(git diff --name-only HEAD~1 HEAD | grep '^src/modules/' | cut -d'/' -f3 | sort -u || echo "")
+          echo "changed_modules=$CHANGED_MODULES" >> $GITHUB_OUTPUT
+          
+          # Détecter si les types ont changé
+          TYPES_CHANGED=$(git diff --name-only HEAD~1 HEAD | grep 'src/generated.d.ts' || echo "")
+          echo "types_changed=$TYPES_CHANGED" >> $GITHUB_OUTPUT
+
+      - name: Generate AI-enhanced documentation
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          CHANGED_MODULES: ${{ steps.analyze.outputs.changed_modules }}
+          TYPES_CHANGED: ${{ steps.analyze.outputs.types_changed }}
+        run: |
+          cd docs
+          # Synchroniser les types
+          cp ../agves_app/src/generated.d.ts ./types/ 2>/dev/null || echo "No types to sync"
+          
+          # Générer la documentation de base
+          node scripts/generate-docs.js
+          
+          # Améliorer avec l'IA si il y a des changements
+          if [ ! -z "$CHANGED_MODULES" ] || [ ! -z "$TYPES_CHANGED" ]; then
+            node scripts/enhance-with-ai.js
+          fi
+
+      - name: Commit and push changes
+        run: |
+          cd docs
+          git config user.name 'Documentation Bot'
+          git config user.email 'bot@yourdomain.com'
+          
+          if [ -n "$(git status --porcelain)" ]; then
+            git add .
+            git commit -m "🤖 Auto-update documentation via AI
+
+            Changes detected in: ${{ steps.analyze.outputs.changed_modules }}
+            Types updated: ${{ steps.analyze.outputs.types_changed != '' && 'Yes' || 'No' }}
+          
+            Generated at: $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
+            git push
+          else
+            echo "No documentation changes to commit"
+          fi
+
+      - name: Deploy to Mintlify
+        run: |
+          cd docs
+          # Mintlify se déploie automatiquement via GitHub App

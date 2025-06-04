@@ -1,33 +1,79 @@
 ---
-title: 'Introduction'
-description: 'Example section for showcasing API endpoints'
+title: "API Introduction"
+description: "Introduction to the AGVES API and authentication"
 ---
 
-<Note>
-  If you're not looking to build API reference documentation, you can delete
-  this section by removing the api-reference folder.
-</Note>
+## Overview
 
-## Welcome
+The AGVES API provides RESTful endpoints for all business entities across 5 modules. All endpoints follow consistent patterns for CRUD operations, pagination, and relationship loading.
 
-There are two ways to build API documentation: [OpenAPI](https://mintlify.com/docs/api-playground/openapi/setup) and [MDX components](https://mintlify.com/docs/api-playground/mdx/configuration). For the starter kit, we are using the following OpenAPI specification.
+## Base URL
 
-<Card
-  title="Plant Store Endpoints"
-  icon="leaf"
-  href="https://github.com/mintlify/starter/blob/main/api-reference/openapi.json"
->
-  View the OpenAPI specification file
-</Card>
+```
+http://localhost:80/api
+```
 
 ## Authentication
 
-All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
+All API endpoints require authentication via Bearer token:
+
+```bash
+Authorization: Bearer {your-token}
+```
+
+## Common Patterns
+
+### List Endpoints
+All list endpoints support:
+- **Pagination**: `?page=1&per_page=15`
+- **Search**: `?search=term`
+- **Relationships**: `?include=relationship1,relationship2`
+
+### Response Format
+All responses follow a consistent format:
 
 ```json
-"security": [
-  {
-    "bearerAuth": []
+{
+  "data": [...],
+  "meta": {
+    "current_page": 1,
+    "per_page": 15,
+    "total": 100
   }
-]
+}
 ```
+
+## Available Modules
+
+<CardGroup cols={2}>
+  <Card
+    title="Authorization"
+    href="/api-reference/authorization/permission"
+  >
+    2 entities available
+  </Card>
+  <Card
+    title="Financial"
+    href="/api-reference/financial/account"
+  >
+    2 entities available
+  </Card>
+  <Card
+    title="Identity"
+    href="/api-reference/identity/identity"
+  >
+    4 entities available
+  </Card>
+  <Card
+    title="Sales"
+    href="/api-reference/sales/attribute"
+  >
+    12 entities available
+  </Card>
+  <Card
+    title="School"
+    href="/api-reference/school/school-class"
+  >
+    2 entities available
+  </Card>
+</CardGroup>

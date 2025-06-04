@@ -1,71 +1,250 @@
 ---
-title: Introduction
-description: "Welcome to the home of your new documentation"
+title: AGVES App Documentation
+description: 'Modern full-stack application built with Next.js and Laravel - Entity-driven architecture for business applications'
 ---
 
 <img
-  className="block dark:hidden"
-  src="/images/hero-light.png"
-  alt="Hero Light"
+    className="block dark:hidden"
+    src="/images/hero-light.svg"
+    alt="AGVES App Hero Light"
 />
 <img
-  className="hidden dark:block"
-  src="/images/hero-dark.png"
-  alt="Hero Dark"
+    className="hidden dark:block"
+    src="/images/hero-dark.svg"
+    alt="AGVES App Hero Dark"
 />
 
-## Setting up
+## Welcome to AGVES App
 
-The first step to world-class documentation is setting up your editing environments.
-
-<CardGroup cols={2}>
-  <Card
-    title="Edit Your Docs"
-    icon="pen-to-square"
-    href="https://mintlify.com/docs/quickstart"
-  >
-    Get your docs set up locally for easy development
-  </Card>
-  <Card
-    title="Preview Changes"
-    icon="image"
-    href="https://mintlify.com/docs/development"
-  >
-    Preview your changes before you push to make sure they're perfect
-  </Card>
-</CardGroup>
-
-## Make it yours
-
-Update your docs to your brand and add valuable content for the best user conversion.
+A modern, **entity-driven** full-stack application showcasing enterprise-grade development patterns. Built with **Next.js 15** and **Laravel**, it demonstrates clean architecture principles perfect for scalable business applications.
 
 <CardGroup cols={2}>
-  <Card
-    title="Customize Style"
-    icon="palette"
-    href="https://mintlify.com/docs/settings/global"
-  >
-    Customize your docs to your company's colors and brands
-  </Card>
-  <Card
-    title="Reference APIs"
-    icon="code"
-    href="https://mintlify.com/docs/api-playground/openapi"
-  >
-    Automatically generate endpoints from an OpenAPI spec
-  </Card>
-  <Card
-    title="Add Components"
-    icon="screwdriver-wrench"
-    href="https://mintlify.com/docs/content/components/accordions"
-  >
-    Build interactive features and designs to guide your users
-  </Card>
-  <Card
-    title="Get Inspiration"
-    icon="stars"
-    href="https://mintlify.com/customers"
-  >
-    Check out our showcase of our favorite documentation
-  </Card>
+    <Card
+        title="🏗️ Entity-Driven Architecture"
+        icon="diagram-project"
+        href="/architecture/entity-system"
+    >
+        Business logic organized around entities with standardized CRUD operations and event-driven communication
+    </Card>
+    <Card
+        title="🔧 Dependency Injection"
+        icon="puzzle-piece"
+        href="/architecture/dependency-injection"
+    >
+        InversifyJS container for service management and loose coupling between components
+    </Card>
+    <Card
+        title="🛡️ Type Safety"
+        icon="shield"
+        href="/backend/types"
+    >
+        Strict TypeScript with auto-generated types from Laravel backend for end-to-end type safety
+    </Card>
+    <Card
+        title="🌐 Internationalization"
+        icon="globe"
+        href="/architecture/internationalization"
+    >
+        Next-intl for seamless multi-language support with entity-aware translations
+    </Card>
 </CardGroup>
+
+## Core Technology Stack
+
+<Tabs>
+    <Tab title="Frontend">
+        - **Next.js 15** with App Router and React 19
+        - **TypeScript** with strict type checking
+        - **TailwindCSS** for utility-first styling
+        - **Material-UI (MUI)** for advanced components
+        - **React Query** for server state management
+        - **next-intl** for internationalization
+        - **Vitest** for testing with jsdom support
+    </Tab>
+    <Tab title="Backend Integration">
+        - **Laravel API** backend with RESTful endpoints
+        - **Axios** with interceptors for HTTP requests
+        - **Laravel Precognition** for real-time form validation
+        - **NextAuth.js** for authentication flow
+        - Auto-generated TypeScript types from Laravel
+        - **InversifyJS** for dependency injection
+    </Tab>
+    <Tab title="Development Tools">
+        - **Docker** containerization for consistent environments
+        - **PHPStorm** optimized development setup
+        - **RxJS** for reactive programming patterns
+        - **Cypress** for end-to-end testing
+        - **MSW** for API mocking during development
+    </Tab>
+</Tabs>
+
+## Business Modules Overview
+
+The application is organized into **5 core business modules**, each handling specific domain logic:
+
+<AccordionGroup>
+    <Accordion title="Authorization Module" icon="lock">
+        **Entities**: Permissions, Roles
+
+        Comprehensive role-based access control with context-aware permissions. Supports hierarchical roles and granular
+        permission management across all modules.
+
+        - Dynamic permission assignments
+        - Context-specific authorization
+        - Role inheritance and delegation
+    </Accordion>
+
+    <Accordion title="Financial Module" icon="credit-card">
+        **Entities**: Accounts, Transactions
+
+        Complete financial management system with account balances and transaction tracking. Supports multiple
+        transaction types with audit trails.
+
+        - Multi-currency account management
+        - Transaction categorization and reporting
+        - Balance reconciliation and history
+    </Accordion>
+
+    <Accordion title="Identity Module" icon="user">
+        **Entities**: Identity, Phones, Addresses, Properties
+
+        User profile and contact information management. Extensible identity system with support for multiple contact
+        methods and custom properties.
+
+        - Multi-contact support (phones, addresses)
+        - Custom identity properties
+        - Privacy and data protection compliant
+    </Accordion>
+
+    <Accordion title="Sales Module" icon="shopping-cart">
+        **Entities**: Products, Services, Carts, Orders, Shops, Attributes
+
+        Complete e-commerce solution with product catalog, shopping cart, and order management. Multi-shop support with
+        flexible attribute system.
+
+        - Product and service catalog
+        - Shopping cart with persistence
+        - Multi-shop order processing
+        - Flexible product attributes
+    </Accordion>
+
+    <Accordion title="School Module" icon="graduation-cap">
+        **Entities**: Classes, Students
+
+        Educational management system for organizing classes and student enrollment. Supports academic year management
+        and student tracking.
+
+        - Class organization and management
+        - Student enrollment and tracking
+        - Academic year support
+    </Accordion>
+</AccordionGroup>
+
+## Application Interfaces
+
+The application provides **multiple specialized interfaces** for different use cases:
+
+<CardGroup cols={3}>
+    <Card
+        title="📊 Admin Dashboard"
+        icon="chart-line"
+        href="/frontend/routing"
+    >
+        **Route**: `/dashboard/[module]/[entity]`
+
+        Full-featured admin interface with CRUD operations for all entities. Dynamic routing based on module and entity
+        structure.
+    </Card>
+    <Card
+        title="🏪 Point of Sale Terminal"
+        icon="cash-register"
+        href="/api-reference/sales"
+    >
+        **Route**: `/terminal/sales/shops/[id]`
+
+        Touch-optimized retail interface for processing sales transactions with real-time inventory management.
+    </Card>
+    <Card
+        title="💳 Balance Terminal"
+        icon="credit-card"
+        href="/modules/financial"
+    >
+        **Route**: `/terminal/solde`
+
+        Dedicated terminal for checking account balances and transaction history with QR code scanning support.
+    </Card>
+</CardGroup>
+
+## Quick Navigation
+
+<CardGroup cols={2}>
+    <Card
+        title="🚀 Quick Start Guide"
+        icon="rocket"
+        href="/quickstart"
+    >
+        Get your development environment running in under 5 minutes
+    </Card>
+    <Card
+        title="🏗️ Architecture Deep Dive"
+        icon="building"
+        href="/architecture/overview"
+    >
+        Understand the entity-driven design patterns and system architecture
+    </Card>
+    <Card
+        title="📚 API Reference"
+        icon="code"
+        href="/api-reference"
+    >
+        Complete API documentation with TypeScript examples and React hooks
+    </Card>
+    <Card
+        title="🧩 Component Library"
+        icon="puzzle-piece"
+        href="/components"
+    >
+        Reusable UI components with Material-UI integration and form handling
+    </Card>
+</CardGroup>
+
+## Key Features
+
+### 🔄 **Entity-Event Architecture**
+Every business operation is modeled as entities with standardized patterns for creation, modification, and relationship management. Events flow through the system to maintain consistency and enable reactive updates.
+
+### 🎯 **Type-Safe Development**
+End-to-end type safety from Laravel backend to React frontend. Auto-generated TypeScript definitions ensure API contracts are always in sync with implementation.
+
+### 🌍 **Multi-Language Ready**
+Built-in internationalization with entity-aware translations. Support for French, English, and Dutch with easy extensibility for additional languages.
+
+### 🧪 **Test-Driven Development**
+Comprehensive testing strategy with unit tests, integration tests, and end-to-end testing. No mocks - prefer feature tests with real database interactions.
+
+## Development Philosophy
+
+<Note>
+    **Laravel-Confident Development**: We embrace framework coupling where it makes sense, following a pragmatic
+    approach that balances clean architecture with developer productivity.
+</Note>
+
+<Warning>
+    **Current Phase**: Focus on building resilient services. Future iterations will refactor toward Laravel-native
+    solutions (Eloquent chains, helpers, facades) for reduced complexity.
+</Warning>
+
+## Getting Started
+
+Ready to explore? Choose your path:
+
+1. **New to the project?** Start with the [Quick Start Guide](/quickstart)
+2. **Want to understand the architecture?** Read the [Architecture Overview](/architecture/overview)
+3. **Need to implement features?** Check the [API Reference](/api-reference)
+4. **Building UI components?** Explore the [Component Library](/components)
+
+---
+
+<Snippet file="support-info.mdx"/>
+
+*Built with ❤️ using modern web technologies and enterprise-grade development practices.*

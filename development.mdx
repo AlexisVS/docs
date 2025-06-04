@@ -1,107 +1,452 @@
 ---
-title: 'Development'
-description: 'Preview changes locally to update your docs'
+title: 'Development Guide'
+description: 'Comprehensive development guide for the AGVES application'
 ---
 
+## Development Environment Setup
+
 <Info>
-  **Prerequisite**: Please install Node.js (version 19 or higher) before proceeding. <br />
-  Please upgrade to ```docs.json``` before proceeding and delete the legacy ```mint.json``` file.
+    **Prerequisites**: Node.js 18+, PHP 8.1+, and Docker (recommended) should be installed before proceeding.
 </Info>
 
-Follow these steps to install and run Mintlify on your operating system:
+### Local Development Setup
 
-**Step 1**: Install Mintlify:
+<Steps>
+    <Step title="Clone and Install">
+        ```bash
+        git clone https://github.com/yourusername/agves_app.git
+        cd agves_app
+        npm install
+        ```
+    </Step>
 
-<CodeGroup>
+    <Step title="Environment Configuration">
+        ```bash
+        cp .env.example .env
+        ```
 
-  ```bash npm
-  npm i -g mintlify
-  ```
+        Configure key variables:
+        ```bash
+        NEXT_PUBLIC_API_URL=http://localhost:80
+        NEXT_PUBLIC_SITE_URL=http://localhost:3000
+        NODE_ENV=development
+        REACT_EDITOR=phpstorm
+        ```
+    </Step>
 
-```bash yarn
-yarn global add mintlify
-```
+    <Step title="Start Development Server">
+        ```bash
+        # Generate translations first
+        npm run generate:translations
 
-</CodeGroup>
+        # Start the development server
+        npm run dev
+        ```
+    </Step>
+</Steps>
 
-**Step 2**: Navigate to the docs directory (where the `docs.json` file is located) and execute the following command:
+### Docker Development
 
-```bash
-mintlify dev
-```
-
-A local preview of your documentation will be available at `http://localhost:3000`.
-
-### Custom Ports
-
-By default, Mintlify uses port 3000. You can customize the port Mintlify runs on by using the `--port` flag. To run Mintlify on port 3333, for instance, use this command:
-
-```bash
-mintlify dev --port 3333
-```
-
-If you attempt to run Mintlify on a port that's already in use, it will use the next available port:
-
-```md
-Port 3000 is already in use. Trying 3001 instead.
-```
-
-## Mintlify Versions
-
-Please note that each CLI release is associated with a specific version of Mintlify. If your local website doesn't align with the production version, please update the CLI:
-
-<CodeGroup>
-
-```bash npm
-npm i -g mintlify@latest
-```
-
-```bash yarn
-yarn global upgrade mintlify
-```
-
-</CodeGroup>
-
-## Validating Links
-
-The CLI can assist with validating reference links made in your documentation. To identify any broken links, use the following command:
+For a consistent development environment:
 
 ```bash
-mintlify broken-links
+# Start all services
+docker-compose up -d
+
+# Access the application container
+docker exec -it agves_app bash
+
+# Install dependencies and start development
+npm install
+npm run dev
 ```
 
-## Deployment
+## Project Structure Deep Dive
 
-<Tip>
-  Unlimited editors available under the [Pro
-  Plan](https://mintlify.com/pricing) and above.
-</Tip>
-
-If the deployment is successful, you should see the following:
-
-<Frame>
-  <img src="/images/checks-passed.png" style={{ borderRadius: '0.5rem' }} />
-</Frame>
-
-## Code Formatting
-
-We suggest using extensions on your IDE to recognize and format MDX. If you're a VSCode user, consider the [MDX VSCode extension](https://marketplace.visualstudio.com/items?itemName=unifiedjs.vscode-mdx) for syntax highlighting, and [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) for code formatting.
-
-## Troubleshooting
+### Core Directories
 
 <AccordionGroup>
-  <Accordion title='Error: Could not load the "sharp" module using the darwin-arm64 runtime'>
+    <Accordion title="src/app/[locale]/ - Next.js App Router">
+        **Purpose**: Application pages with internationalization support
 
-    This may be due to an outdated version of node. Try the following:
-    1. Remove the currently-installed version of mintlify: `npm remove -g mintlify`
-    2. Upgrade to Node v19 or higher.
-    3. Reinstall mintlify: `npm install -g mintlify`
-  </Accordion>
+        **Key Features**:
+        - Dynamic routing based on locale
+        - Dashboard with module/entity patterns
+        - Terminal interfaces for specialized use cases
 
-  <Accordion title="Issue: Encountering an unknown error">
-  
-    Solution: Go to the root of your device and delete the \~/.mintlify folder. Afterwards, run `mintlify dev` again.
-  </Accordion>
+        **Structure**:
+        ```
+        app/[locale]/
+        ├── dashboard/[module]/[entity]/  # Admin interface
+        ├── terminal/                     # POS terminals
+        ├── login/                        # Authentication
+        └── components/                   # Page-specific components
+        ```
+    </Accordion>
+
+    <Accordion title="src/modules/ - Business Logic">
+        **Purpose**: Modular business logic organization
+
+        **Each Module Contains**:
+        - Entity definitions with fields and relationships
+        - Internationalization files
+        - Optional services for complex business logic
+        - Tests for service layers
+
+        **Current Modules**: Authorization, Financial, Identity, Sales, School
+    </Accordion>
+
+    <Accordion title="src/lib/ - Core Library">
+        **Purpose**: Framework-agnostic business logic and utilities
+
+        **Key Components**:
+        - Entity management system
+        - API service layer
+        - Event system
+        - Authorization utilities
+        - Next.js specific implementations
+    </Accordion>
+
+    <Accordion title="src/components/ - Shared UI">
+        **Purpose**: Reusable UI components
+
+        **Features**:
+        - Material-UI integration
+        - Form handling with validation
+        - Entity-aware components
+        - Debugging tools
+    </Accordion>
 </AccordionGroup>
 
-Curious about what changed in the CLI version? [Check out the CLI changelog.](https://www.npmjs.com/package/mintlify?activeTab=versions)
+## Development Workflow
+
+### Code Quality Standards
+
+The project follows strict code quality standards:
+
+<Tabs>
+    <Tab title="TypeScript">
+        **Strict Configuration**:
+        ```bash
+        # Type checking
+        npx tsc --noEmit
+
+        # Watch mode for development
+        npx tsc --noEmit --watch
+        ```
+
+        **Key Rules**:
+        - Strict null checks enabled
+        - No implicit any types
+        - All imports must be typed
+    </Tab>
+
+    <Tab title="Testing">
+        **Test Strategy**:
+        ```bash
+        # Run all tests
+        npm test
+
+        # Development mode with coverage
+        npm run test:dev
+
+        # Watch mode
+        npm run test:dev -- --watch
+        ```
+
+        **Testing Principles**:
+        - Feature tests over unit tests
+        - No mocks - prefer real implementations
+        - Test business logic, not implementation details
+    </Tab>
+
+    <Tab title="Linting & Formatting">
+        **Code Quality Tools**:
+        ```bash
+        # ESLint checking
+        npm run lint
+
+        # Fix auto-fixable issues
+        npm run lint -- --fix
+
+        # Prettier formatting
+        npx prettier --write .
+        ```
+    </Tab>
+</Tabs>
+
+### Entity Development
+
+Entities are the core building blocks. Here's how to work with them:
+
+#### Creating a New Entity
+
+<Steps>
+    <Step title="Define the Entity">
+        ```typescript
+        // modules/[module]/entities/new-entity.tsx
+        import { Entity } from '@/lib/entity/entity';
+
+        export const NewEntity = Entity.create('new-entity', {
+        module: 'your-module',
+        fields: {
+        id: { type: 'number', primary: true },
+        name: { type: 'string', required: true },
+        description: { type: 'string', nullable: true }
+    },
+        relationships: {
+        relatedEntity: {
+        type: 'belongsTo',
+        entity: 'related-entity',
+        module: 'related-module'
+    }
+    }
+    });
+        ```
+    </Step>
+
+    <Step title="Add Translations">
+        ```typescript
+        // modules/[module]/i18n/entities/new-entity.ts
+        export default {
+        fields: {
+        name: 'Name',
+        description: 'Description'
+    },
+        actions: {
+        create: 'Create New Entity',
+        edit: 'Edit Entity'
+    }
+    };
+        ```
+    </Step>
+
+    <Step title="Register in Module">
+        ```typescript
+        // modules/[module]/index.tsx
+        export { NewEntity } from './entities/new-entity';
+        ```
+    </Step>
+</Steps>
+
+#### Using Entities in Components
+
+```typescript
+// Querying entities
+const { data, isLoading } = useEntityQuery('new-entity', 'your-module');
+
+// Creating/editing forms
+<EntityFormComponent
+  entityName="new-entity"
+  moduleName="your-module"
+  mode="create"
+/>
+
+// Data tables
+<EntityDataTable
+  entityName="new-entity"
+  moduleName="your-module"
+/>
+```
+
+### API Integration
+
+The application automatically generates API endpoints for all entities:
+
+#### Backend Integration
+
+**Laravel Setup Required**:
+```bash
+# Generate TypeScript types from Laravel
+php artisan typescript:transform
+```
+
+**API Endpoints Pattern**:
+```
+GET    /api/{module}/{entity}       # List with pagination
+POST   /api/{module}/{entity}       # Create new
+GET    /api/{module}/{entity}/{id}  # Show specific
+PUT    /api/{module}/{entity}/{id}  # Update
+DELETE /api/{module}/{entity}/{id}  # Delete
+```
+
+#### Frontend API Usage
+
+```typescript
+// Using the entity query hook
+import { useEntityQuery } from '@/lib/implementations/next/api/hooks/entity/query';
+
+function EntityList() {
+  const { data, isLoading, error } = useEntityQuery('entity-name', 'module-name', {
+    page: 1,
+    per_page: 15,
+    search: 'search-term',
+    include: ['relationships']
+  });
+
+  return (
+    // Your component JSX
+  );
+}
+```
+
+## Advanced Development Topics
+
+### Dependency Injection
+
+Services are managed through InversifyJS:
+
+```typescript
+// Registering a service
+container.bind('CustomService').to(CustomService);
+
+// Using in components
+const customService = useContainer().get<CustomService>('CustomService');
+```
+
+### Event System
+
+React to changes across the application:
+
+```typescript
+// Publishing events
+eventService.publish('entity.created', { entity: 'user', id: 123 });
+
+// Subscribing to events
+eventService.subscribe('entity.created', (data) => {
+  // Handle the event
+});
+```
+
+### Internationalization
+
+**Adding New Languages**:
+
+<Steps>
+    <Step title="Create Language Files">
+        ```typescript
+        // i18n/lang/es.ts (for Spanish)
+        export default {
+        // Your translations
+    };
+        ```
+    </Step>
+
+    <Step title="Update Configuration">
+        ```typescript
+        // i18n/config.ts
+        export const locales = ['en', 'fr', 'nl', 'es'] as const;
+        ```
+    </Step>
+
+    <Step title="Generate Translation Files">
+        ```bash
+        npm run generate:translations
+        ```
+    </Step>
+</Steps>
+
+## Debugging and Development Tools
+
+### Available Debugging Components
+
+```typescript
+// Entity state debugging
+<EntityDebugger entityName="permission" moduleName="authorization" />
+
+// Event flow debugging
+<EventDebugger />
+
+// API request debugging
+<ApiErrorDisplay />
+```
+
+### PHPStorm Integration
+
+The project is optimized for PHPStorm:
+
+- **Laravel Pint** integration for code formatting
+- **TypeScript** configuration for strict type checking
+- **Vitest** integration for testing
+- **ESLint** and **Prettier** for code quality
+
+### Performance Monitoring
+
+```typescript
+// Using React Query DevTools
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+
+// Add to your app (development only)
+{process.env.NODE_ENV === 'development' && <ReactQueryDevtools />}
+```
+
+## Deployment Preparation
+
+### Build Process
+
+```bash
+# Generate translations
+npm run generate:translations
+
+# Type checking
+npx tsc --noEmit
+
+# Build for production
+npm run build
+
+# Start production server
+npm start
+```
+
+### Docker Production
+
+```bash
+# Build production image
+docker build -t agves-app .
+
+# Run in production mode
+docker run -p 3000:3000 agves-app
+```
+
+## Common Development Patterns
+
+### Creating Custom Hooks
+
+```typescript
+// Custom entity hook example
+export const useCustomEntityLogic = (entityName: string, moduleName: string) => {
+  const { data } = useEntityQuery(entityName, moduleName);
+  const [state, setState] = useState();
+
+  // Your custom logic
+
+  return { data, state, customMethod };
+};
+```
+
+### Authorization Integration
+
+```typescript
+// Protecting components
+<PermissionGuard permission="create" module="sales">
+  <CreateButton />
+</PermissionGuard>
+
+// Conditional rendering
+const hasPermission = usePermission('delete', 'authorization');
+```
+
+### Error Handling
+
+```typescript
+// Global error handling
+const { handleApiError } = useApiErrorHandler();
+
+try {
+  // API call
+} catch (error) {
+  handleApiError(error);
+}
+```
+
+This development guide provides the foundation for working effectively with the AGVES application architecture. For specific implementation details, refer to the respective module documentation.

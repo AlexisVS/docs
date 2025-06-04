@@ -1,20 +1,37 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Mint Starter Kit",
+  "name": "AGVES App Documentation",
   "colors": {
-    "primary": "#16A34A",
+    "primary": "#0D9373",
     "light": "#07C983",
-    "dark": "#15803D"
+    "dark": "#0D9373"
   },
   "favicon": "/favicon.svg",
+  "logo": {
+    "light": "/logo/light.svg",
+    "dark": "/logo/dark.svg"
+  },
+  "navbar": {
+    "links": [
+      {
+        "label": "GitHub",
+        "href": "https://github.com/yourusername/agves_app"
+      }
+    ],
+    "primary": {
+      "type": "button",
+      "label": "Dashboard",
+      "href": "http://localhost:3000/dashboard"
+    }
+  },
   "navigation": {
     "tabs": [
       {
-        "tab": "Guides",
+        "tab": "Documentation",
         "groups": [
           {
-            "group": "Get Started",
+            "group": "Getting Started",
             "pages": [
               "index",
               "quickstart",
@@ -22,14 +39,88 @@
             ]
           },
           {
-            "group": "Essentials",
+            "group": "Architecture",
             "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/settings",
-              "essentials/navigation",
-              "essentials/reusable-snippets"
+              "architecture/overview",
+              "architecture/entity-system",
+              "architecture/dependency-injection",
+              "architecture/event-system",
+              "architecture/internationalization"
+            ]
+          },
+          {
+            "group": "Frontend Development",
+            "pages": [
+              "frontend/overview",
+              "frontend/routing",
+              "frontend/hooks",
+              "frontend/state-management",
+              "frontend/testing"
+            ]
+          },
+          {
+            "group": "Backend Integration",
+            "pages": [
+              "backend/overview",
+              "backend/api-clients",
+              "backend/services",
+              "backend/types"
+            ]
+          },
+          {
+            "group": "Business Modules",
+            "pages": [
+              "modules/overview"
+            ]
+          },
+          {
+            "group": "Authorization Module",
+            "pages": [
+              "modules/authorization"
+            ]
+          },
+          {
+            "group": "Financial Module",
+            "pages": [
+              "modules/financial"
+            ]
+          },
+          {
+            "group": "Identity Module",
+            "pages": [
+              "modules/identity"
+            ]
+          },
+          {
+            "group": "Sales Module",
+            "pages": [
+              "modules/sales"
+            ]
+          },
+          {
+            "group": "School Module",
+            "pages": [
+              "modules/school"
+            ]
+          },
+          {
+            "group": "Components Library",
+            "pages": [
+              "components/overview",
+              "components/forms",
+              "components/inputs",
+              "components/fields",
+              "components/entity-components",
+              "components/debugging"
+            ]
+          },
+          {
+            "group": "Testing",
+            "pages": [
+              "testing/overview",
+              "testing/unit-tests",
+              "testing/integration-tests",
+              "testing/e2e-tests"
             ]
           }
         ]
@@ -40,16 +131,89 @@
           {
             "group": "API Documentation",
             "pages": [
-              "api-reference/introduction"
+              "api-reference/introduction",
+              "api-reference/authentication"
             ]
           },
           {
-            "group": "Endpoint Examples",
+            "group": "Authorization",
             "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
+              "api-reference/authorization/permission",
+              "api-reference/authorization/role"
+            ]
+          },
+          {
+            "group": "Financial",
+            "pages": [
+              "api-reference/financial/account",
+              "api-reference/financial/transaction"
+            ]
+          },
+          {
+            "group": "Identity",
+            "pages": [
+              "api-reference/identity/identity",
+              "api-reference/identity/identity-phone",
+              "api-reference/identity/identity-street",
+              "api-reference/identity/identity-property"
+            ]
+          },
+          {
+            "group": "Sales",
+            "pages": [
+              "api-reference/sales/attribute",
+              "api-reference/sales/attribute-category",
+              "api-reference/sales/attribute-value",
+              "api-reference/sales/cart",
+              "api-reference/sales/cart-item",
+              "api-reference/sales/customer",
+              "api-reference/sales/order",
+              "api-reference/sales/product",
+              "api-reference/sales/service",
+              "api-reference/sales/shop",
+              "api-reference/sales/shop-item",
+              "api-reference/sales/shop-item-category"
+            ]
+          },
+          {
+            "group": "School",
+            "pages": [
+              "api-reference/school/school-class",
+              "api-reference/school/student"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Components",
+        "groups": [
+          {
+            "group": "Component Overview",
+            "pages": [
+              "components/overview"
+            ]
+          },
+          {
+            "group": "Form Components",
+            "pages": [
+              "components/forms",
+              "components/inputs",
+              "components/fields"
+            ]
+          },
+          {
+            "group": "Entity Components",
+            "pages": [
+              "components/entity-components",
+              "components/debugging"
+            ]
+          },
+          {
+            "group": "Specialized Components",
+            "pages": [
+              "components/select-components",
+              "components/authorization-components",
+              "components/date-components"
             ]
           }
         ]
@@ -58,45 +222,27 @@
     "global": {
       "anchors": [
         {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
+          "anchor": "GitHub Repository",
+          "href": "https://github.com/yourusername/agves_app",
+          "icon": "github"
         },
         {
-          "anchor": "Community",
-          "href": "https://mintlify.com/community",
-          "icon": "slack"
+          "anchor": "Local Development",
+          "href": "http://localhost:3000",
+          "icon": "play"
         },
         {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
+          "anchor": "Laravel Backend",
+          "href": "http://localhost:80",
+          "icon": "server"
         }
       ]
     }
   },
-  "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
-  },
-  "navbar": {
-    "links": [
-      {
-        "label": "Support",
-        "href": "mailto:hi@mintlify.com"
-      }
-    ],
-    "primary": {
-      "type": "button",
-      "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
-    }
-  },
   "footer": {
     "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
+      "github": "https://github.com/yourusername/agves_app",
+      "x": "https://twitter.com/yourusername"
     }
   }
 }
