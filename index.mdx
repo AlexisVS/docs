@@ -1,250 +1,161 @@
 ---
-title: AGVES App Documentation
-description: 'Modern full-stack application built with Next.js and Laravel - Entity-driven architecture for business applications'
+title: "AGVES App Documentation"
+description: "Complete documentation for AGVES - An entity-driven business application platform"
 ---
 
-<img
-    className="block dark:hidden"
-    src="/images/hero-light.svg"
-    alt="AGVES App Hero Light"
-/>
-<img
-    className="hidden dark:block"
-    src="/images/hero-dark.svg"
-    alt="AGVES App Hero Dark"
-/>
+# Welcome to AGVES Documentation
 
-## Welcome to AGVES App
+AGVES is a **modern, entity-driven business application platform** built with Next.js 15, Laravel, and TypeScript. This documentation provides comprehensive guides for developers, administrators, and end-users.
 
-A modern, **entity-driven** full-stack application showcasing enterprise-grade development patterns. Built with **Next.js 15** and **Laravel**, it demonstrates clean architecture principles perfect for scalable business applications.
+## Quick Start
 
 <CardGroup cols={2}>
-    <Card
-        title="🏗️ Entity-Driven Architecture"
-        icon="diagram-project"
-        href="/architecture/entity-system"
-    >
-        Business logic organized around entities with standardized CRUD operations and event-driven communication
-    </Card>
-    <Card
-        title="🔧 Dependency Injection"
-        icon="puzzle-piece"
-        href="/architecture/dependency-injection"
-    >
-        InversifyJS container for service management and loose coupling between components
-    </Card>
-    <Card
-        title="🛡️ Type Safety"
-        icon="shield"
-        href="/backend/types"
-    >
-        Strict TypeScript with auto-generated types from Laravel backend for end-to-end type safety
-    </Card>
-    <Card
-        title="🌐 Internationalization"
-        icon="globe"
-        href="/architecture/internationalization"
-    >
-        Next-intl for seamless multi-language support with entity-aware translations
-    </Card>
+  <Card
+    title="API Reference"
+    icon="square-terminal"
+    href="/api-reference/introduction"
+  >
+    Explore our RESTful API with 22 documented endpoints across 5 business modules
+  </Card>
+  <Card
+    title="Architecture Guide"
+    icon="building"
+    href="/documentation/architecture/overview"
+  >
+    Learn about our entity-driven architecture and design principles
+  </Card>
+  <Card
+    title="Component Library"
+    icon="puzzle-piece"
+    href="/components/overview"
+  >
+    Browse reusable React components built for entity management
+  </Card>
+  <Card
+    title="Testing Guide"
+    icon="flask"
+    href="/testing/overview"
+  >
+    Comprehensive testing strategies with Vitest and Playwright
+  </Card>
 </CardGroup>
 
-## Core Technology Stack
+## Technology Stack
 
-<Tabs>
-    <Tab title="Frontend">
-        - **Next.js 15** with App Router and React 19
-        - **TypeScript** with strict type checking
-        - **TailwindCSS** for utility-first styling
-        - **Material-UI (MUI)** for advanced components
-        - **React Query** for server state management
-        - **next-intl** for internationalization
-        - **Vitest** for testing with jsdom support
-    </Tab>
-    <Tab title="Backend Integration">
-        - **Laravel API** backend with RESTful endpoints
-        - **Axios** with interceptors for HTTP requests
-        - **Laravel Precognition** for real-time form validation
-        - **NextAuth.js** for authentication flow
-        - Auto-generated TypeScript types from Laravel
-        - **InversifyJS** for dependency injection
-    </Tab>
-    <Tab title="Development Tools">
-        - **Docker** containerization for consistent environments
-        - **PHPStorm** optimized development setup
-        - **RxJS** for reactive programming patterns
-        - **Cypress** for end-to-end testing
-        - **MSW** for API mocking during development
-    </Tab>
-</Tabs>
+AGVES is built with modern, production-ready technologies:
 
-## Business Modules Overview
+### Frontend
+- **Next.js 15** with App Router and React Server Components
+- **React 19** with latest hooks and concurrent features
+- **TypeScript** with strict configuration for type safety
+- **TailwindCSS** + **Material-UI** for consistent styling
+- **React Query** for server state management
 
-The application is organized into **5 core business modules**, each handling specific domain logic:
+### Backend
+- **Laravel 11** API with auto-generated TypeScript types
+- **MySQL** database with optimized entity relationships
+- **Laravel Sanctum** for API authentication
+- **Laravel Broadcasting** for real-time features
 
-<AccordionGroup>
-    <Accordion title="Authorization Module" icon="lock">
-        **Entities**: Permissions, Roles
+### Development Tools
+- **Vitest** for unit and integration testing
+- **Playwright** for end-to-end testing
+- **Docker** for containerized development
+- **Laravel Pint** for code formatting
+- **PHPStorm** / **VS Code** for IDE support
 
-        Comprehensive role-based access control with context-aware permissions. Supports hierarchical roles and granular
-        permission management across all modules.
+## Core Features
 
-        - Dynamic permission assignments
-        - Context-specific authorization
-        - Role inheritance and delegation
-    </Accordion>
+### Entity-Driven Architecture
+- **5 business modules** with 22 entities
+- **Automatic CRUD** generation for all entities
+- **Type-safe relationships** between entities
+- **Dynamic form generation** based on entity schemas
 
-    <Accordion title="Financial Module" icon="credit-card">
-        **Entities**: Accounts, Transactions
+### Multi-Language Support
+- **3 languages** supported: English, French, Dutch
+- **Entity-aware translations** for business terms
+- **RTL support** for Arabic and Hebrew markets
+- **Dynamic language switching**
 
-        Complete financial management system with account balances and transaction tracking. Supports multiple
-        transaction types with audit trails.
+### Modern Developer Experience
+- **Hot reload** in development with Vite
+- **Type generation** from Laravel to TypeScript
+- **Component documentation** with Storybook
+- **API documentation** with OpenAPI integration
 
-        - Multi-currency account management
-        - Transaction categorization and reporting
-        - Balance reconciliation and history
-    </Accordion>
-
-    <Accordion title="Identity Module" icon="user">
-        **Entities**: Identity, Phones, Addresses, Properties
-
-        User profile and contact information management. Extensible identity system with support for multiple contact
-        methods and custom properties.
-
-        - Multi-contact support (phones, addresses)
-        - Custom identity properties
-        - Privacy and data protection compliant
-    </Accordion>
-
-    <Accordion title="Sales Module" icon="shopping-cart">
-        **Entities**: Products, Services, Carts, Orders, Shops, Attributes
-
-        Complete e-commerce solution with product catalog, shopping cart, and order management. Multi-shop support with
-        flexible attribute system.
-
-        - Product and service catalog
-        - Shopping cart with persistence
-        - Multi-shop order processing
-        - Flexible product attributes
-    </Accordion>
-
-    <Accordion title="School Module" icon="graduation-cap">
-        **Entities**: Classes, Students
-
-        Educational management system for organizing classes and student enrollment. Supports academic year management
-        and student tracking.
-
-        - Class organization and management
-        - Student enrollment and tracking
-        - Academic year support
-    </Accordion>
-</AccordionGroup>
-
-## Application Interfaces
-
-The application provides **multiple specialized interfaces** for different use cases:
+## Business Modules
 
 <CardGroup cols={3}>
-    <Card
-        title="📊 Admin Dashboard"
-        icon="chart-line"
-        href="/frontend/routing"
-    >
-        **Route**: `/dashboard/[module]/[entity]`
-
-        Full-featured admin interface with CRUD operations for all entities. Dynamic routing based on module and entity
-        structure.
-    </Card>
-    <Card
-        title="🏪 Point of Sale Terminal"
-        icon="cash-register"
-        href="/api-reference/sales"
-    >
-        **Route**: `/terminal/sales/shops/[id]`
-
-        Touch-optimized retail interface for processing sales transactions with real-time inventory management.
-    </Card>
-    <Card
-        title="💳 Balance Terminal"
-        icon="credit-card"
-        href="/modules/financial"
-    >
-        **Route**: `/terminal/solde`
-
-        Dedicated terminal for checking account balances and transaction history with QR code scanning support.
-    </Card>
+  <Card title="Authorization" href="/documentation/modules/authorization">
+    **2 entities** • Roles and permissions management
+  </Card>
+  <Card title="Financial" href="/documentation/modules/financial">
+    **2 entities** • Accounts and transactions
+  </Card>
+  <Card title="Identity" href="/documentation/modules/identity">
+    **4 entities** • User identity and contact information
+  </Card>
+  <Card title="Sales" href="/documentation/modules/sales">
+    **12 entities** • Complete e-commerce and POS system
+  </Card>
+  <Card title="School" href="/documentation/modules/school">
+    **2 entities** • Educational institution management
+  </Card>
 </CardGroup>
-
-## Quick Navigation
-
-<CardGroup cols={2}>
-    <Card
-        title="🚀 Quick Start Guide"
-        icon="rocket"
-        href="/quickstart"
-    >
-        Get your development environment running in under 5 minutes
-    </Card>
-    <Card
-        title="🏗️ Architecture Deep Dive"
-        icon="building"
-        href="/architecture/overview"
-    >
-        Understand the entity-driven design patterns and system architecture
-    </Card>
-    <Card
-        title="📚 API Reference"
-        icon="code"
-        href="/api-reference"
-    >
-        Complete API documentation with TypeScript examples and React hooks
-    </Card>
-    <Card
-        title="🧩 Component Library"
-        icon="puzzle-piece"
-        href="/components"
-    >
-        Reusable UI components with Material-UI integration and form handling
-    </Card>
-</CardGroup>
-
-## Key Features
-
-### 🔄 **Entity-Event Architecture**
-Every business operation is modeled as entities with standardized patterns for creation, modification, and relationship management. Events flow through the system to maintain consistency and enable reactive updates.
-
-### 🎯 **Type-Safe Development**
-End-to-end type safety from Laravel backend to React frontend. Auto-generated TypeScript definitions ensure API contracts are always in sync with implementation.
-
-### 🌍 **Multi-Language Ready**
-Built-in internationalization with entity-aware translations. Support for French, English, and Dutch with easy extensibility for additional languages.
-
-### 🧪 **Test-Driven Development**
-Comprehensive testing strategy with unit tests, integration tests, and end-to-end testing. No mocks - prefer feature tests with real database interactions.
-
-## Development Philosophy
-
-<Note>
-    **Laravel-Confident Development**: We embrace framework coupling where it makes sense, following a pragmatic
-    approach that balances clean architecture with developer productivity.
-</Note>
-
-<Warning>
-    **Current Phase**: Focus on building resilient services. Future iterations will refactor toward Laravel-native
-    solutions (Eloquent chains, helpers, facades) for reduced complexity.
-</Warning>
 
 ## Getting Started
 
-Ready to explore? Choose your path:
+### For Developers
+1. **[Architecture Overview](/documentation/architecture/overview)** - Understand the system design
+2. **[Frontend Development](/documentation/frontend/overview)** - Next.js and React patterns
+3. **[Backend Integration](/documentation/backend/overview)** - Laravel API integration
+4. **[Component Library](/components/overview)** - Reusable UI components
 
-1. **New to the project?** Start with the [Quick Start Guide](/quickstart)
-2. **Want to understand the architecture?** Read the [Architecture Overview](/architecture/overview)
-3. **Need to implement features?** Check the [API Reference](/api-reference)
-4. **Building UI components?** Explore the [Component Library](/components)
+### For API Users
+1. **[API Introduction](/api-reference/introduction)** - Authentication and common patterns
+2. **[Authorization API](/api-reference/authorization/permission)** - User management
+3. **[Sales API](/api-reference/sales/product)** - E-commerce operations
+4. **[Error Handling](/api-reference/errors)** - Proper error responses
+
+### For System Administrators
+1. **[Deployment Guide](/deployment/overview)** - Production setup
+2. **[Configuration](/configuration/environment)** - Environment variables
+3. **[Monitoring](/monitoring/overview)** - Application monitoring
+4. **[Security](/security/overview)** - Security best practices
+
+## Contributing
+
+We welcome contributions! Please see our [Contributing Guide](https://github.com/yourusername/agves_app/blob/main/CONTRIBUTING.md) for details.
+
+### Development Setup
+```bash
+# Clone the repository
+git clone https://github.com/yourusername/agves_app.git
+
+# Install dependencies
+npm install && composer install
+
+# Setup environment
+cp .env.example .env
+
+# Generate application key
+php artisan key:generate
+
+# Run migrations
+php artisan migrate
+
+# Start development servers
+npm run dev & php artisan serve
+```
+
+## Support
+
+- **Documentation Issues**: [GitHub Issues](https://github.com/yourusername/agves_app_docs/issues)
+- **Application Issues**: [Main Repository](https://github.com/yourusername/agves_app/issues)
+- **Email Support**: [support@agves.com](mailto:support@agves.com)
+- **Community**: [Discord Server](https://discord.gg/agves)
 
 ---
 
-<Snippet file="support-info.mdx"/>
-
-*Built with ❤️ using modern web technologies and enterprise-grade development practices.*
+**Last updated**: 04/06/2025 • **Version**: 1.0.0

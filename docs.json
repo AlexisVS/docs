@@ -1,29 +1,26 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "mint",
-  "name": "AGVES App Documentation",
-  "colors": {
-    "primary": "#0D9373",
-    "light": "#07C983",
-    "dark": "#0D9373"
+  "name": "AGVES App",
+  "logo": {
+    "dark": "/logo/dark.svg",
+    "light": "/logo/light.svg"
   },
   "favicon": "/favicon.svg",
-  "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
+  "colors": {
+    "primary": "#2563eb",
+    "light": "#60a5fa",
+    "dark": "#1e40af"
   },
-  "navbar": {
-    "links": [
-      {
-        "label": "GitHub",
-        "href": "https://github.com/yourusername/agves_app"
-      }
-    ],
-    "primary": {
-      "type": "button",
-      "label": "Dashboard",
-      "href": "http://localhost:3000/dashboard"
+  "theme": "mint",
+  "topbarLinks": [
+    {
+      "name": "Support",
+      "url": "mailto:support@agves.com"
     }
+  ],
+  "topbarCtaButton": {
+    "name": "Dashboard",
+    "url": "https://dashboard.agves.com"
   },
   "navigation": {
     "tabs": [
@@ -31,11 +28,11 @@
         "tab": "Documentation",
         "groups": [
           {
-            "group": "Getting Started",
+            "group": "Get Started",
             "pages": [
-              "index",
+              "introduction",
               "quickstart",
-              "development"
+              "authentication"
             ]
           },
           {
@@ -70,48 +67,37 @@
           {
             "group": "Business Modules",
             "pages": [
-              "modules/overview"
-            ]
-          },
-          {
-            "group": "Authorization Module",
-            "pages": [
-              "modules/authorization"
-            ]
-          },
-          {
-            "group": "Financial Module",
-            "pages": [
-              "modules/financial"
-            ]
-          },
-          {
-            "group": "Identity Module",
-            "pages": [
-              "modules/identity"
-            ]
-          },
-          {
-            "group": "Sales Module",
-            "pages": [
-              "modules/sales"
-            ]
-          },
-          {
-            "group": "School Module",
-            "pages": [
-              "modules/school"
-            ]
-          },
-          {
-            "group": "Components Library",
-            "pages": [
-              "components/overview",
-              "components/forms",
-              "components/inputs",
-              "components/fields",
-              "components/entity-components",
-              "components/debugging"
+              "modules/overview",
+              {
+                "group": "Authorization Module",
+                "pages": [
+                  "modules/authorization"
+                ]
+              },
+              {
+                "group": "Financial Module",
+                "pages": [
+                  "modules/financial"
+                ]
+              },
+              {
+                "group": "Identity Module",
+                "pages": [
+                  "modules/identity"
+                ]
+              },
+              {
+                "group": "Sales Module",
+                "pages": [
+                  "modules/sales"
+                ]
+              },
+              {
+                "group": "School Module",
+                "pages": [
+                  "modules/school"
+                ]
+              }
             ]
           },
           {
@@ -129,10 +115,9 @@
         "tab": "API Reference",
         "groups": [
           {
-            "group": "API Documentation",
+            "group": "Getting Started",
             "pages": [
-              "api-reference/introduction",
-              "api-reference/authentication"
+              "api-reference/introduction"
             ]
           },
           {
@@ -188,61 +173,34 @@
         "tab": "Components",
         "groups": [
           {
-            "group": "Component Overview",
+            "group": "Components Library",
             "pages": [
-              "components/overview"
-            ]
-          },
-          {
-            "group": "Form Components",
-            "pages": [
+              "components/overview",
               "components/forms",
               "components/inputs",
-              "components/fields"
-            ]
-          },
-          {
-            "group": "Entity Components",
-            "pages": [
+              "components/fields",
               "components/entity-components",
               "components/debugging"
-            ]
-          },
-          {
-            "group": "Specialized Components",
-            "pages": [
-              "components/select-components",
-              "components/authorization-components",
-              "components/date-components"
             ]
           }
         ]
       }
-    ],
-    "global": {
-      "anchors": [
-        {
-          "anchor": "GitHub Repository",
-          "href": "https://github.com/yourusername/agves_app",
-          "icon": "github"
-        },
-        {
-          "anchor": "Local Development",
-          "href": "http://localhost:3000",
-          "icon": "play"
-        },
-        {
-          "anchor": "Laravel Backend",
-          "href": "http://localhost:80",
-          "icon": "server"
-        }
-      ]
-    }
+    ]
   },
-  "footer": {
-    "socials": {
-      "github": "https://github.com/yourusername/agves_app",
-      "x": "https://twitter.com/yourusername"
+  "anchors": [
+    {
+      "anchor": "GitHub",
+      "icon": "github",
+      "href": "https://github.com/alexisvs/agves_app"
+    },
+    {
+      "anchor": "Community",
+      "icon": "discord",
+      "href": "https://discord.gg/agves"
     }
+  ],
+  "footerSocials": {
+    "github": "https://github.com/alexisvs/agves_app",
+    "linkedin": "https://www.linkedin.com/company/agves"
   }
 }
