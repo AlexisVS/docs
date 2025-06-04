@@ -1,0 +1,631 @@
+# Quick Start
+
+This guide will walk you through setting up and using AGVES, from installation to creating your first entity.
+
+## Prerequisites
+
+Before beginning, ensure you have installed:
+
+* **Node.js** 22.0+ (LTS recommended)
+* **PHP** 8.1+ with the extensions required by Laravel
+* **MySQL** 8.0+ or MariaDB 10.5+
+* **Docker** (optional but recommended)
+* **Git** for version control
+
+## Installation
+
+### 1. Clone the Project
+
+```bash
+# Clone the main repository
+git clone https://github.com/alexisvs/agves_app.git
+cd agves_app
+
+# Clone the Laravel backend (if separate)
+git clone https://github.com/alexisvs/agves_api.git ../agves_api
+```
+
+### 2. Environment Configuration
+
+<Tabs>
+    <Tab title="Frontend (Next.js)">
+        ```bash
+        # Copy the environment file
+        cp .env.example .env
+
+        ````
+        # Edit environment variables
+        nano .env
+        ```
+
+        Essential variables:
+        ```env
+        # API Configuration
+        NEXT_PUBLIC_API_URL=http://localhost:80
+        NEXT_PUBLIC_SITE_URL=http://localhost:3000
+
+        # Environment
+        NODE_ENV=development
+        REACT_EDITOR=phpstorm  # or vscode
+
+        # Default locale
+        NEXT_PUBLIC_DEFAULT_LOCALE=fr
+        ```
+        ````
+
+    </Tab>
+
+    <Tab title="Backend (Laravel)">
+        ```bash
+        cd ../agves_api
+
+        ````
+        # Copy the environment file
+        cp .env.example .env
+
+        # Generate application key
+        php artisan key:generate
+        ```
+
+        Essential variables:
+        ```env
+        # Database
+        DB_CONNECTION=mysql
+        DB_HOST=127.0.0.1
+        DB_PORT=3306
+        DB_DATABASE=agves
+        DB_USERNAME=root
+        DB_PASSWORD=
+
+        # Frontend URL (for CORS)
+        FRONTEND_URL=http://localhost:3000
+        SESSION_DOMAIN=localhost
+        SANCTUM_STATEFUL_DOMAINS=localhost:3000
+        ```
+        ````
+
+    </Tab>
+</Tabs>
+
+### 3. Install Dependencies
+
+<Tabs>
+    <Tab title="Manual Installation">
+        ```bash
+        # Frontend
+        cd agves_app
+        npm install
+
+        ````
+        # Backend
+        cd ../agves_api
+        composer install
+
+        # Create the database
+        php artisan migrate --seed
+        ```
+        ````
+
+    </Tab>
+
+    <Tab title="Using Docker">
+        ```bash
+        # Start all services
+        docker-compose up -d
+
+        ````
+        # Install dependencies in containers
+        docker exec -it agves_app npm install
+        docker exec -it agves_api composer install
+
+        # Migrate the database
+        docker exec -it agves_api php artisan migrate --seed
+        ```
+        ````
+
+    </Tab>
+</Tabs>
+
+### 4. Generate Files
+
+```bash
+# Generate TypeScript types from Laravel
+cd ../agves_api
+php artisan typescript:generate
+
+# Back to frontend
+cd ../agves_app
+
+# Generate translation files
+npm run generate:translations
+
+# (Optional) Generate documentation
+npm run generate:docs
+```
+
+## Starting the Servers
+
+### Development
+
+<Tabs>
+    <Tab title="Separate Commands">
+        ```bash
+        # Terminal 1 – Laravel backend
+        cd agves_api
+        php artisan serve --port=80
+
+        ````
+        # Terminal 2 – Next.js frontend
+        cd agves_app
+        npm run dev
+        ```
+        ````
+
+    </Tab>
+
+    <Tab title="With Docker">
+        ```bash
+        # Start all services
+        docker-compose up
+
+        ````
+        # Or in detached mode
+        docker-compose up -d
+
+        # View logs
+        docker-compose logs -f
+        ```
+        ````
+
+    </Tab>
+</Tabs>
+
+The application will be accessible at:
+
+* Frontend: [http://localhost:3000](http://localhost:3000)
+* Backend API: [http://localhost:80/api](http://localhost:80/api)
+* API Documentation: [http://localhost:80/docs](http://localhost:80/docs)
+
+## First Login
+
+### Default Administrator Account
+
+```
+Email: admin@agves.com
+Password: password
+```
+
+<Warning>
+    Change the administrator password immediately in production!
+</Warning>
+
+## Create Your First Entity
+
+### 1. Define the Entity Structure
+
+Create a new file under the appropriate module:
+
+```typescript
+// src/modules/[your-module]/entities/example.tsx
+import Entity from "@/lib/entity/entity";
+import { Property, Relationship } from "@/lib/entity/types/entity";
+import Module from "@/lib/module/module";
+import { ReactNode } from "react";
+import { Star } from "@mui/icons-material";
+
+export type ExampleDTO = {
+  id: number;
+  name: string;
+  description?: string;
+  active: boolean;
+  created_at?: string;
+  updated_at?: string;
+};
+
+export default class Example extends Entity<ExampleDTO> {
+  readonly singularName = 'example';
+  readonly pluralName = 'examples';
+  readonly module: Module = new YourModule();
+  icon: ReactNode = <Star />;
+
+  // Display aliases configuration
+  aliases = new Map([
+    ['id', {
+      name: 'id',
+      pattern: '{name}',
+      steps: [{
+        name: 'name',
+        type: 'property',
+        pattern: '{value}',
+        property: 'name'
+      }]
+    }]
+  ]);
+
+  // Relationships with other entities
+  relationships = new Map<string, Relationship>([
+    // Add your relationships here
+  ]);
+
+  // Entity properties
+  properties = new Map<string, Property>([
+    ['id', { name: 'id', type: 'number', defaultValue: undefined }],
+    ['name', { name: 'name', type: 'string', defaultValue: '' }],
+    ['description', { name: 'description', type: 'string', defaultValue: null }],
+    ['active', { name: 'active', type: 'boolean', defaultValue: true }],
+  ]);
+
+  // Form field configuration
+  inputs = new Map([
+    ['name', {
+      name: 'name',
+      type: 'text',
+      props: {
+        label: 'Name',
+        required: true,
+        helperText: 'Name of the example'
+      }
+    }],
+    ['description', {
+      name: 'description',
+      type: 'text',
+      props: {
+        label: 'Description',
+        multiline: true,
+        rows: 4
+      }
+    }],
+    ['active', {
+      name: 'active',
+      type: 'boolean',
+      props: {
+        label: 'Active'
+      }
+    }]
+  ]);
+
+  // Display field configuration
+  fields = new Map([
+    ['name', { name: 'name', type: 'text', props: {} }],
+    ['description', { name: 'description', type: 'text', props: {} }],
+    ['active', { name: 'active', type: 'boolean', props: {} }]
+  ]);
+}
+```
+
+### 2. Add Translations
+
+```typescript
+// src/modules/[your-module]/i18n/entities/example.ts
+export const example = {
+  fr: {
+    singularName: 'Exemple',
+    pluralName: 'Exemples',
+    fields: {
+      name: {
+        name: 'nom',
+        props: {
+          label: 'Nom',
+          helperText: 'Entrez le nom'
+        }
+      },
+      description: {
+        name: 'description',
+        props: {
+          label: 'Description',
+          helperText: 'Décrivez l\'exemple'
+        }
+      },
+      active: {
+        name: 'actif',
+        props: {
+          label: 'Actif',
+          helperText: 'Statut de l\'exemple'
+        }
+      }
+    },
+    inputs: {
+      // Same structure as fields
+    }
+  },
+  en: {
+    singularName: 'Example',
+    pluralName: 'Examples',
+    fields: {
+      name: {
+        name: 'name',
+        props: {
+          label: 'Name',
+          helperText: 'Enter the name'
+        }
+      },
+      description: {
+        name: 'description',
+        props: {
+          label: 'Description',
+          helperText: 'Describe the example'
+        }
+      },
+      active: {
+        name: 'active',
+        props: {
+          label: 'Active',
+          helperText: 'Example status'
+        }
+      }
+    },
+    inputs: {
+      // Same structure as fields
+    }
+  },
+  nl: {
+    // Dutch translations
+  }
+};
+```
+
+### 3. Register the Entity in the Module
+
+```typescript
+// src/modules/[your-module]/index.tsx
+import { Container } from "inversify";
+import { EventService } from "@/lib/event/event-service";
+import Example from "./entities/example";
+import { registerEntityMenu } from "@/lib/menu/registerEntityMenu";
+
+export default function (container: Container, eventService: EventService) {
+  if (!container || !eventService) return;
+
+  try {
+    // Register the entity in the menu
+    const exampleEntity = new Example();
+    registerEntityMenu(container, exampleEntity, {
+      routerContext: 'dashboard',
+      parentId: 'your-module',
+      icon: exampleEntity.icon,
+      priority: 10
+    });
+
+    // Add custom events if needed
+    // eventService.registerModuleEvent(...)
+  } catch (e) {
+    console.error('Module error:', e);
+  }
+}
+```
+
+### 4. Create the Laravel Model
+
+```php
+// Backend: app/Models/Example.php
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+class Example extends Model
+{
+    use SoftDeletes;
+
+    protected $fillable = [
+        'name',
+        'description',
+        'active'
+    ];
+
+    protected $casts = [
+        'active' => 'boolean'
+    ];
+}
+```
+
+### 5. Create the Migration
+
+```php
+// Backend: database/migrations/2024_01_01_000000_create_examples_table.php
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up()
+    {
+        Schema::create('examples', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->text('description')->nullable();
+            $table->boolean('active')->default(true);
+            $table->timestamps();
+            $table->softDeletes();
+        });
+    }
+
+    public function down()
+    {
+        Schema::dropIfExists('examples');
+    }
+};
+```
+
+### 6. Create the API Controller
+
+```php
+// Backend: app/Http/Controllers/API/ExampleController.php
+<?php
+
+namespace App\Http\Controllers\API;
+
+use App\Http\Controllers\Controller;
+use App\Models\Example;
+use Illuminate\Http\Request;
+
+class ExampleController extends Controller
+{
+    public function index(Request $request)
+    {
+        $query = Example::query();
+
+        if ($request->has('search')) {
+            $query->where('name', 'like', "%{$request->search}%");
+        }
+
+        return $query->paginate($request->get('per_page', 15));
+    }
+
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'active' => 'boolean'
+        ]);
+
+        return Example::create($validated);
+    }
+
+    public function show(Example $example)
+    {
+        return $example;
+    }
+
+    public function update(Request $request, Example $example)
+    {
+        $validated = $request->validate([
+            'name' => 'string|max:255',
+            'description' => 'nullable|string',
+            'active' => 'boolean'
+        ]);
+
+        $example->update($validated);
+        return $example;
+    }
+
+    public function destroy(Example $example)
+    {
+        $example->delete();
+        return response()->noContent();
+    }
+}
+```
+
+### 7. Register the Routes
+
+```php
+// Backend: routes/api.php
+Route::middleware('auth:sanctum')->group(function () {
+    Route::apiResource('your-module/v1/examples', ExampleController::class);
+});
+```
+
+## Using the Entity
+
+### In React Components
+
+```typescript
+// Listing the entities
+import { useEntityQuery } from '@/lib/implementations/next/api/hooks/entity/query';
+
+function ExampleList() {
+  const { data, isLoading, error } = useEntityQuery('examples', 'your-module');
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+
+  return (
+    <div>
+      {data?.map(item => (
+        <div key={item.id}>{item.name}</div>
+      ))}
+    </div>
+  );
+}
+```
+
+### Creation Form
+
+```typescript
+import { EntityFormComponent } from '@/lib/implementations/next/components/entity';
+
+function CreateExample() {
+  return (
+    <EntityFormComponent
+      entityName="examples"
+      moduleName="your-module"
+      mode="create"
+      onSuccess={(data) => {
+        console.log('Created:', data);
+      }}
+    />
+  );
+}
+```
+
+### Data Table with Pagination
+
+```typescript
+import { EntityDataTable } from '@/lib/implementations/next/components/entity';
+
+function ExampleTable() {
+  return (
+    <EntityDataTable
+      entityName="examples"
+      moduleName="your-module"
+    />
+  );
+}
+```
+
+## Helpful Commands
+
+```bash
+# Regenerate TypeScript types
+npm run generate:types
+
+# Regenerate translations
+npm run generate:translations
+
+# Run tests
+npm test
+
+# Production build
+npm run build
+
+# Analyze bundle
+npm run analyze
+```
+
+## Troubleshooting
+
+### Common Errors
+
+<AccordionGroup>
+    <Accordion title="CORS errors">
+        Verify that `FRONTEND_URL` is correctly set in the backend’s `.env` and that `SANCTUM_STATEFUL_DOMAINS` includes your frontend domain.
+    </Accordion>
+
+    <Accordion title="Missing TypeScript Types">
+        Run `php artisan typescript:generate` in the backend, then copy the generated file into the frontend.
+    </Accordion>
+
+    <Accordion title="Translations Not Found">
+        Ensure you have run `npm run generate:translations` after adding new translations.
+    </Accordion>
+
+    <Accordion title="Error 419 (CSRF token mismatch)">
+        Check that cookies are properly configured and that you’re using the same domain for frontend and backend.
+    </Accordion>
+</AccordionGroup>
+
+## Next Steps
+
+Now that your environment is set up and you’ve created your first entity, explore:
+
+* **[Entity-Driven Architecture](/architecture/entity-system)** to understand the system in depth
+* **[Business Modules](/modules/overview)** for concrete examples
+* **[Testing](/testing/overview)** to learn how to test your code
+* **[Deployment](/deployment/overview)** to move to production
